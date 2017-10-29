@@ -10,7 +10,7 @@ class NetworkClient {
 public static void main(String args[]) throws IOException{
 
 
-    InetAddress address=InetAddress.getLocalHost();
+    InetAddress address=InetAddress.getByName("ec2-52-72-156-17.compute-1.amazonaws.com");
     Socket s1=null;
     String line=null;
     BufferedReader br=null;
