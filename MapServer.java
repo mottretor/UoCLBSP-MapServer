@@ -59,7 +59,6 @@ class EchoThread extends Thread {
                     socket.close();
                     return;
                 } else {
-                    System.out.println(line);
                     out.writeBytes(line + "\n\r");
                     out.flush();
                 }
