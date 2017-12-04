@@ -1,19 +1,19 @@
 package model;
 
 public class Edge  {
-    private final String id;
+    private final int id;
     private final Vertex source;
     private final Vertex destination;
-    private final int weight;
+    private final double weight;
 
-    public Edge(String id, Vertex source, Vertex destination, int weight) {
+    public Edge(int id, Vertex source, Vertex destination, double weight) {
         this.id = id;
         this.source = source;
         this.destination = destination;
         this.weight = weight;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
     public Vertex getDestination() {
@@ -23,7 +23,7 @@ public class Edge  {
     public Vertex getSource() {
         return source;
     }
-    public int getWeight() {
+    public double getWeight() {
         return weight;
     }
 
@@ -31,7 +31,7 @@ public class Edge  {
     public String toString() {
         return source + " " + destination;
     }
-
-
+    
+    
 }
 
