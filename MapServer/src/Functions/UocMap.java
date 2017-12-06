@@ -24,8 +24,8 @@ public class UocMap {
         uocGraph.addEdge(v3, v4);
         
         DijkstraAlgorithm da = new DijkstraAlgorithm(uocGraph);
-        da.execute(v1);
-        LinkedList<Vertex> mylist = da.getPath(v4);
+        da.execute(v4);
+        LinkedList<Vertex> mylist = da.getPath(v1);
         
         for (Vertex vertex : mylist) {
             System.out.println(vertex);
@@ -45,6 +45,8 @@ public class UocMap {
 final long endTime = System.currentTimeMillis();
 
 System.out.println("Total execution time: " + (endTime - startTime) );
+
+System.out.println(uocGraph.getMap().toJSONString());
         
     }
 }

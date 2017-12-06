@@ -45,10 +45,8 @@ public class DijkstraAlgorithm {
     private void findMinimalDistances(Vertex node) {
         List<Vertex> adjacentNodes = getNeighbors(node);
         for (Vertex target : adjacentNodes) {
-            if (getShortestDistance(target) > getShortestDistance(node)
-                    + getDistance(node, target)) {
-                distance.put(target, getShortestDistance(node)
-                        + getDistance(node, target));
+            if (getShortestDistance(target) > getShortestDistance(node) + getDistance(node, target)) {
+                distance.put(target, getShortestDistance(node) + getDistance(node, target));
                 predecessors.put(target, node);
                 unSettledNodes.add(target);
             }
@@ -76,6 +74,10 @@ public class DijkstraAlgorithm {
             if (edge.getSource().equals(node)
                     && !isSettled(edge.getDestination())) {
                 neighbors.add(edge.getDestination());
+            }
+            if (edge.getDestination().equals(node)
+                    && !isSettled(edge.getSource())) {
+                neighbors.add(edge.getSource());
             }
         }
         return neighbors;

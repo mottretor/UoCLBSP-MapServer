@@ -1,9 +1,5 @@
 package model;
 
-import Functions.DataBase;
-import java.sql.ResultSet;
-import java.sql.Statement;
-
 public class Vertex {
 
     /**
@@ -65,7 +61,7 @@ public class Vertex {
 
     @Override
     public String toString() {
-        return String.valueOf(id)+String.valueOf(getLatitude()) + ", " + String.valueOf(getLongitude());
+        return String.valueOf(id)+" : "+String.valueOf(getLatitude()) + ", " + String.valueOf(getLongitude());
     }
 
 }

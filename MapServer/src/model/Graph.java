@@ -5,10 +5,15 @@
  */
 package model;
 
+import Algorithms.DijkstraAlgorithm;
 import Functions.DataBase;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 public class Graph {
     private List<Vertex> vertexes;
@@ -85,6 +90,74 @@ public class Graph {
             
         }
         return null;
+    }
+    
+    public JSONObject getMap(){
+        JSONObject map = new JSONObject();
+        JSONArray elements = new JSONArray();
+        for (Vertex element : vertexes) {
+            JSONObject jo = new JSONObject();
+            jo.put("id",element.getId());
+            jo.put( "latitude",element.getLatitude());
+            jo.put("longitude",element.getLongitude() );
+            elements.add(jo);
+        }
+        map.put("vertexes",elements);
+        elements = new JSONArray();
+        for (Edge element : edges) {
+            JSONObject jo = new JSONObject();
+            jo.put("id",element.getId() );
+            jo.put("source",element.getSource().getId() );
+            jo.put("destination",element.getDestination().getId() );
+            elements.add(jo);
+        }
+        map.put("edges",elements);
+        
+        return map;
+    
+    }
+    
+    public Vertex searchVertex(double latitudes, double longitudes){
+        double minimum = Double.MAX_VALUE;
+        Vertex minVertex = null;
+        for (Vertex vertex : vertexes) {
+            double x = vertex.getLatitude()-latitudes;
+            double y = vertex.getLongitude()-longitudes;
+            double distance = Math.sqrt((x*x)+(y*y));
+            if(minimum>distance){
+                minimum = distance;
+                minVertex = vertex;
+                if (minimum==0) {
+                    return minVertex;
+                }
+            }
+        }
+        return minVertex;
+    }
+    
+    public Vertex searchVertex(int id){
+        for (Vertex vertex : vertexes) {
+            if (vertex.getId()==id) {
+                return vertex;
+            }
+        }
+        return null;
+    }
+    
+    public Edge searchEdge(int id){
+        for (Edge edge : edges) {
+            if (edge.getId()== id) {
+                return edge;
+            }
+        }
+        return null;
+    
+    }
+    
+    public LinkedList<Vertex> getInnerDirections(Vertex source, Vertex destination){
+        DijkstraAlgorithm dijkstraAlgorithm = new DijkstraAlgorithm(this);
+        dijkstraAlgorithm.execute(source);
+        return dijkstraAlgorithm.getPath(destination);
     }
 
 
