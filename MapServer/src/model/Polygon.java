@@ -5,23 +5,21 @@
  */
 package model;
 
-import Algorithms.DijkstraAlgorithm;
 import Functions.DataBase;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.LinkedList;
 import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class Graph {
+public class Polygon {
  
     
     private int id; 
     private List<Vertex> vertexes;
     private List<Edge> edges;
 
-    public Graph(int id, List<Vertex> vertexes, List<Edge> edges) {
+    public Polygon(int id, List<Vertex> vertexes, List<Edge> edges) {
         this.id = id;
         this.vertexes = vertexes;
         this.edges = edges;
@@ -59,8 +57,8 @@ public class Graph {
         }
         try {
             Statement statement = DataBase.createStatement();
-            statement.executeUpdate("INSERT INTO g_vertex(latitudes,longitudes,graph_id) VALUES('"+latitude+"','"+longitude+"','"+id+"') ");
-            ResultSet rs = statement.executeQuery("SELECT LAST_INSERT_ID() FROM g_vertex");
+            statement.executeUpdate("INSERT INTO p_vertex(latitudes,longitudes,graph_id) VALUES('"+latitude+"','"+longitude+"','"+id+"') ");
+            ResultSet rs = statement.executeQuery("SELECT LAST_INSERT_ID() FROM p_vertex");
             rs.next();
             currid = rs.getInt(1); 
             Vertex newVertex = new Vertex(currid, latitude, longitude);
@@ -85,20 +83,12 @@ public class Graph {
             }
         }
         try {
-            double x1, x2, y1, y2;
-            x1 = v1.getLatitude();
-            x2 = v2.getLatitude();
-            y1 = v1.getLongitude();
-            y2 = v2.getLongitude();
-            
-            x1 = Math.sqrt(((x1-x2)*(x1-x2))+((y1-y2)*(y1-y2)));            
-            
             Statement statement = DataBase.createStatement();
-            statement.executeUpdate("INSERT INTO g_edge(g_vertex_id,g_vertex_id1,weight) VALUES('"+v1.getId()+"','"+v2.getId()+"','"+x1+"') ");
-            ResultSet rs = statement.executeQuery("SELECT LAST_INSERT_ID() FROM g_edge");
+            statement.executeUpdate("INSERT INTO p_edge(p_vertex_id,p_vertex_id1) VALUES('"+v1.getId()+"','"+v2.getId()+"') ");
+            ResultSet rs = statement.executeQuery("SELECT LAST_INSERT_ID() FROM p_edge");
             rs.next();
             currid = rs.getInt(1); 
-            Edge newEdge = new Edge(currid, v1, v2, x1);
+            Edge newEdge = new Edge(currid, v1, v2, 0);
             edges.add(newEdge);
             return newEdge;
             
@@ -171,11 +161,7 @@ public class Graph {
     
     }
     
-    public LinkedList<Vertex> getInnerDirections(Vertex source, Vertex destination){
-        DijkstraAlgorithm dijkstraAlgorithm = new DijkstraAlgorithm(this);
-        dijkstraAlgorithm.execute(source);
-        return dijkstraAlgorithm.getPath(destination);
-    }
+    
     
 
 
