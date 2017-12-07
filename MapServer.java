@@ -100,7 +100,7 @@ class EchoThread extends Thread {
                 // do not in.close();
                 out.flush();
                 out.close();
-                socket.close();
+                
 //                if ((line == null) || line.equalsIgnoreCase("QUIT")) {
 //                    socket.close();
 //                    return;
