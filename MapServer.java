@@ -55,7 +55,7 @@ class EchoThread extends Thread {
             return;
         }
         String line;
-        while (true) {
+       // while (true) {
             try {
                 line = brinp.readLine();
                 StringBuilder raw = new StringBuilder();
@@ -83,13 +83,14 @@ class EchoThread extends Thread {
                 raw.append(body.toString());
                 System.out.println(body);
 
-                // send response
-                out.writeBytes("HTTP/1.1 200 OK\n");
-                out.writeBytes("Content-Type: text/html\n");
-                out.writeBytes("\n");
-                out.writeBytes(new Date().toString());
+              // send response
+              out.writeBytes("HTTP/1.1 200 OK\r\n");
+               out.writeBytes("Content-Type: text/html\r\n");
+		out.writeBytes("Access-Control-Allow-Origin: *\r\n");
+               out.writeBytes("\r\n");
+               // out.writeBytes(new Date().toString());
                 if (isPost) {
-                    out.writeBytes("<br><u>" + body.toString() + "</u>");
+                    out.writeBytes("Pissui putha");
                 } else {
                     out.writeBytes("<form method='POST'>");
                     out.writeBytes("<input name='name' type='text'/>");
@@ -111,7 +112,7 @@ class EchoThread extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
                 return;
-            }
+         //   }
         }
     }
 }
