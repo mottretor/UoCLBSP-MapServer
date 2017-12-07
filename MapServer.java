@@ -55,7 +55,7 @@ class EchoThread extends Thread {
             return;
         }
         String line;
-        while (true) {
+        
             try {
                 line = brinp.readLine();
                 StringBuilder raw = new StringBuilder();
@@ -111,7 +111,7 @@ class EchoThread extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
                 return;
-            }
+            
         }
     }
 }
