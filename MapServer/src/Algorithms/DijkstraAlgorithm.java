@@ -12,7 +12,7 @@ import model.Edge;
 import model.Graph;
 import model.Vertex;
 
-public class DijkstraAlgorithm {
+public strictfp class DijkstraAlgorithm {
 
     private final List<Vertex> nodes;
     private final List<Edge> edges;

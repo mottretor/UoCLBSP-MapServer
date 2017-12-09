@@ -84,12 +84,13 @@ class EchoThread extends Thread {
                 System.out.println(body);
 
                 // send response
-                out.writeBytes("HTTP/1.1 200 OK\n");
-                out.writeBytes("Content-Type: text/html\n");
-                out.writeBytes("\n");
-                out.writeBytes(new Date().toString());
+                out.writeBytes("HTTP/1.1 200 OK\r\n");
+                out.writeBytes("Content-Type: text/html\r\n");
+                out.writeBytes("Access-Control-Allow-Origin: *\r\n");
+                out.writeBytes("\r\n");
+                
                 if (isPost) {
-                    out.writeBytes("<br><u>" + body.toString() + "</u>");
+                    out.writeBytes("Data");
                 } else {
                     out.writeBytes("<form method='POST'>");
                     out.writeBytes("<input name='name' type='text'/>");

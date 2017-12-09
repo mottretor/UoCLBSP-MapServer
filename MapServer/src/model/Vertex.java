@@ -1,6 +1,6 @@
 package model;
 
-public class Vertex {
+public strictfp class Vertex {
 
     /**
      * @return the latitude

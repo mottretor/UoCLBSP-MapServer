@@ -12,7 +12,7 @@ import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class Polygon {
+public strictfp class Polygon {
  
     
     private int id; 

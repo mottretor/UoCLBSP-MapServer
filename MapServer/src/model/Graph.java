@@ -14,7 +14,7 @@ import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class Graph {
+public strictfp class Graph {
  
     
     private int id; 

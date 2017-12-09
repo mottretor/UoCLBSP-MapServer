@@ -1,6 +1,6 @@
 package model;
 
-public class Edge  {
+public strictfp class Edge  {
     private final int id;
     private final Vertex source;
     private final Vertex destination;
