@@ -1,5 +1,6 @@
 package Servers;
 
+import Functions.UocMap;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -7,6 +8,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 public class TheMapServer {
 
@@ -80,6 +83,7 @@ class MapClient extends Thread {
             }
 
             System.out.println(rawData);
+            String rawOut = computeResult(rawData);
 
             if (isPost) {
                 // send response
@@ -89,7 +93,7 @@ class MapClient extends Thread {
                 dataOutputStream.writeBytes("\r\n");
 
             }
-            dataOutputStream.writeBytes(rawData);
+            dataOutputStream.writeBytes(rawOut);
             //
             // do not in.close();
             dataOutputStream.flush();
@@ -107,5 +111,16 @@ class MapClient extends Thread {
             return;
 
         }
+    }
+
+    private String computeResult(String rawData) {
+        try {
+            JSONObject mainObject = (JSONObject) new JSONParser().parse(rawData);
+            JSONObject outObject = UocMap.getPolygons();
+            return outObject.toJSONString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

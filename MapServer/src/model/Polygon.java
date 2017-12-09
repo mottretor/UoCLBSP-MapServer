@@ -81,8 +81,9 @@ public strictfp class Polygon {
             jo.put( "latitude",element.getLatitude());
             jo.put("longitude",element.getLongitude() );
             elements.add(jo);
-        }      
-        
+        }
+        map.put("id", id);
+        map.put("vertexes",elements);
         return map;
     
     }

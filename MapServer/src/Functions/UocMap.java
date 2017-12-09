@@ -214,6 +214,16 @@ public strictfp class UocMap {
             e.printStackTrace();
         }
     }
+    
+    public static JSONObject getPolygons(){
+        JSONObject outObject = new JSONObject();
+        JSONArray polyArray = new JSONArray();
+        for (Polygon value : uocPolygons.values()) {
+            polyArray.add(value.getMap());
+        }
+        outObject.put("polygons", polyArray);
+        return outObject;
+    }
 
     public static void main(String[] args) {
         uocGraph = new Graph(1, new ArrayList<Vertex>(), new ArrayList<Edge>());
