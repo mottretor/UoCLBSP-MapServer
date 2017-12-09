@@ -127,6 +127,10 @@ class MapClient extends Thread {
                 case "getPath":
                     outObject = UocMap.getRoute(mainObject);
                     break;
+                case "geofence":
+                    UocMap.addPolygon(mainObject);
+                    outObject = (JSONObject) new JSONParser().parse("{\"result\":\"success\"}");
+                    break;
                 
             }
             
