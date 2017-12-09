@@ -17,21 +17,19 @@ public strictfp class Polygon {
     
     private int id; 
     private List<Vertex> vertexes;
-    private List<Edge> edges;
+    
 
-    public Polygon(int id, List<Vertex> vertexes, List<Edge> edges) {
+    public Polygon(int id, List<Vertex> vertexes) {
         this.id = id;
         this.vertexes = vertexes;
-        this.edges = edges;
+        
     }
 
     public List<Vertex> getVertexes() {
         return vertexes;
     }
 
-    public List<Edge> getEdges() {
-        return edges;
-    }
+    
     
     /**
      * @return the id
@@ -72,32 +70,7 @@ public strictfp class Polygon {
         return null;
     }
     
-    public Edge addEdge(Vertex v1 , Vertex v2){
-        int currid = -1;
-        for (Edge edge : edges) {
-            if (edge.getSource().equals(v1) && edge.getDestination().equals(v2)) {
-                return edge;
-            }
-            if (edge.getSource().equals(v2) && edge.getDestination().equals(v1)) {
-                return edge;
-            }
-        }
-        try {
-            Statement statement = DataBase.createStatement();
-            statement.executeUpdate("INSERT INTO p_edge(p_vertex_id,p_vertex_id1) VALUES('"+v1.getId()+"','"+v2.getId()+"') ");
-            ResultSet rs = statement.executeQuery("SELECT LAST_INSERT_ID() FROM p_edge");
-            rs.next();
-            currid = rs.getInt(1); 
-            Edge newEdge = new Edge(currid, v1, v2, 0);
-            edges.add(newEdge);
-            return newEdge;
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            
-        }
-        return null;
-    }
+    
     
     public JSONObject getMap(){
         JSONObject map = new JSONObject();
@@ -108,17 +81,7 @@ public strictfp class Polygon {
             jo.put( "latitude",element.getLatitude());
             jo.put("longitude",element.getLongitude() );
             elements.add(jo);
-        }
-        map.put("vertexes",elements);
-        elements = new JSONArray();
-        for (Edge element : edges) {
-            JSONObject jo = new JSONObject();
-            jo.put("id",element.getId() );
-            jo.put("source",element.getSource().getId() );
-            jo.put("destination",element.getDestination().getId() );
-            elements.add(jo);
-        }
-        map.put("edges",elements);
+        }      
         
         return map;
     
@@ -151,15 +114,7 @@ public strictfp class Polygon {
         return null;
     }
     
-    public Edge searchEdge(int id){
-        for (Edge edge : edges) {
-            if (edge.getId()== id) {
-                return edge;
-            }
-        }
-        return null;
     
-    }
     
     
     
