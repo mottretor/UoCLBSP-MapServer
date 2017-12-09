@@ -124,7 +124,7 @@ public strictfp class UocMap {
             steps.add(jObj);
         }
         JSONObject routes = new JSONObject();
-        routes.put("routes", steps);
+        routes.put("steps", steps);
         return routes;
     }
 

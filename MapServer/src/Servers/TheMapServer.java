@@ -93,7 +93,7 @@ class MapClient extends Thread {
                 dataOutputStream.writeBytes("\r\n");
 
             }
-            dataOutputStream.writeBytes("{\"polygons\":[{\"id\":100,\"vertexes\":[{\"latitude\": 6.903045, \"longitude\": 79.860281},{\"latitude\": 6.902116, \"longitude\": 79.861996},{\"latitude\": 6.899326, \"longitude\": 79.860805},{\"latitude\": 6.898815, \"longitude\": 79.860429}],\"edges\":[{\"edge1\":1},{\"edge2\":2},{\"edge3\":3},{\"edge4\":4}]},{\"id\":200,\"vertexes\":[{\"latitude\": 6.899528, \"longitude\": 79.859785},{\"latitude\": 6.903181, \"longitude\": 79.858584},{\"latitude\": 6.902351, \"longitude\": 79.857511}],\"edges\":[{\"edge1\":1},{\"edge2\":2},{\"edge3\":3}]},{\"id\":647,\"vertexes\":[{\"latitude\": 6.901509, \"longitude\": 79.856942},{\"latitude\": 6.901019, \"longitude\": 79.855193},{\"latitude\": 6.900242, \"longitude\": 79.855440}],\"edges\":[{\"edge1\":1},{\"edge2\":2},{\"edge3\":3}]}]}");
+            dataOutputStream.writeBytes(rawOut);
             //
             // do not in.close();
             dataOutputStream.flush();
@@ -116,7 +116,19 @@ class MapClient extends Thread {
     private String computeResult(String rawData) {
         try {
             JSONObject mainObject = (JSONObject) new JSONParser().parse(rawData);
-            JSONObject outObject = UocMap.getPolygons();
+            String type = (String) mainObject.get("type");
+            JSONObject outObject = null;
+            switch(type){
+                case "polyRequest":
+                    //outObject = UocMap.getPolygons();
+                    outObject = (JSONObject) new JSONParser().parse("{\"polygons\":[{\"id\":100,\"vertexes\":[{\"latitude\": 6.903045, \"longitude\": 79.860281},{\"latitude\": 6.902116, \"longitude\": 79.861996},{\"latitude\": 6.899326, \"longitude\": 79.860805},{\"latitude\": 6.898815, \"longitude\": 79.860429}],\"edges\":[{\"edge1\":1},{\"edge2\":2},{\"edge3\":3},{\"edge4\":4}]},{\"id\":200,\"vertexes\":[{\"latitude\": 6.899528, \"longitude\": 79.859785},{\"latitude\": 6.903181, \"longitude\": 79.858584},{\"latitude\": 6.902351, \"longitude\": 79.857511}],\"edges\":[{\"edge1\":1},{\"edge2\":2},{\"edge3\":3}]},{\"id\":647,\"vertexes\":[{\"latitude\": 6.901509, \"longitude\": 79.856942},{\"latitude\": 6.901019, \"longitude\": 79.855193},{\"latitude\": 6.900242, \"longitude\": 79.855440}],\"edges\":[{\"edge1\":1},{\"edge2\":2},{\"edge3\":3}]}]}");
+                    break;
+                case "getPath":
+                    outObject = UocMap.getRoute(mainObject);
+                    break;
+                
+            }
+            
             return outObject.toJSONString();
         } catch (Exception e) {
             e.printStackTrace();
