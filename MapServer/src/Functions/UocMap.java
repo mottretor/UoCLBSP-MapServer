@@ -75,9 +75,9 @@ public strictfp class UocMap {
         JSONObject destination = (JSONObject) points.get("destination");
         Vertex[] minPath;
         LinkedList<Vertex> verList;
-        if ((Integer) source.get("inside") != 0 && (Integer) destination.get("inside") != 0) {
-            Graph sGraph = uocGraphs.get((Integer) source.get("inside"));
-            Graph dGraph = uocGraphs.get((Integer) destination.get("inside"));
+        if ((Long) source.get("inside") != 0 && (Long) destination.get("inside") != 0) {
+            Graph sGraph = uocGraphs.get((Long) source.get("inside"));
+            Graph dGraph = uocGraphs.get((Long) destination.get("inside"));
             Vertex sVertex = sGraph.searchVertex((Double) source.get("latitudes"), (Double) source.get("longitudes"));
             Vertex dVertex = dGraph.searchVertex((Double) destination.get("latitudes"), (Double) destination.get("longitudes"));
             if (sGraph.getId() == dGraph.getId()) {
@@ -92,8 +92,8 @@ public strictfp class UocMap {
                 sRoute.addAll(dRoute);
                 verList = sRoute;
             }
-        } else if ((Integer) source.get("inside") != 0) {
-            Graph sGraph = uocGraphs.get((Integer) source.get("inside"));
+        } else if ((Long) source.get("inside") != 0) {
+            Graph sGraph = uocGraphs.get((Long) source.get("inside"));
             ArrayList<Vertex> outpoint = new ArrayList<Vertex>();
             outpoint.add(new Vertex(0, (Double) destination.get("latitudes"), (Double) destination.get("longitudes")));
             minPath = findMinimum(uocOut.get(sGraph.getId()), outpoint);
@@ -102,8 +102,8 @@ public strictfp class UocMap {
             LinkedList<Vertex> gRoute = getGoogleRoute(minPath[0].getLatitude(), minPath[0].getLongitude(), minPath[1].getLatitude(), minPath[1].getLongitude());
             sRoute.addAll(gRoute);
             verList = sRoute;
-        } else if ((Integer) destination.get("inside") != 0) {
-            Graph dGraph = uocGraphs.get((Integer) destination.get("inside"));
+        } else if ((Long) destination.get("inside") != 0) {
+            Graph dGraph = uocGraphs.get((Long) destination.get("inside"));
             ArrayList<Vertex> outpoint = new ArrayList<Vertex>();
             outpoint.add(new Vertex(0, (Double) source.get("latitudes"), (Double) source.get("longitudes")));
             minPath = findMinimum(outpoint, uocOut.get(dGraph.getId()));
