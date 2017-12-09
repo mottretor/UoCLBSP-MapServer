@@ -78,8 +78,8 @@ public strictfp class Polygon {
         for (Vertex element : vertexes) {
             JSONObject jo = new JSONObject();
             jo.put("id",element.getId());
-            jo.put( "latitude",element.getLatitude());
-            jo.put("longitude",element.getLongitude() );
+            jo.put( "lat",element.getLatitude());
+            jo.put("lng",element.getLongitude() );
             elements.add(jo);
         }
         map.put("id", id);
