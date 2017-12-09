@@ -121,8 +121,8 @@ class MapClient extends Thread {
             JSONObject outObject = null;
             switch(type){
                 case "polyRequest":
-                    //outObject = UocMap.getPolygons();
-                    outObject = (JSONObject) new JSONParser().parse("{\"polygons\":[{\"id\":100,\"vertexes\":[{\"lat\": 6.903045, \"lng\": 79.860281},{\"lat\": 6.902116, \"lng\": 79.861996},{\"lat\": 6.899326, \"lng\": 79.860805},{\"lat\": 6.898815, \"lng\": 79.860429}],\"edges\":[{\"edge1\":1},{\"edge2\":2},{\"edge3\":3},{\"edge4\":4}]},{\"id\":200,\"vertexes\":[{\"lat\": 6.899528, \"lng\": 79.859785},{\"lat\": 6.903181, \"lng\": 79.858584},{\"lat\": 6.902351, \"lng\": 79.857511}],\"edges\":[{\"edge1\":1},{\"edge2\":2},{\"edge3\":3}]},{\"id\":647,\"vertexes\":[{\"lat\": 6.901509, \"lng\": 79.856942},{\"lat\": 6.901019, \"lng\": 79.855193},{\"lat\": 6.900242, \"lng\": 79.855440}],\"edges\":[{\"edge1\":1},{\"edge2\":2},{\"edge3\":3}]}]}");
+                    outObject = UocMap.getPolygons();
+//                    outObject = (JSONObject) new JSONParser().parse("{\"polygons\":[{\"id\":100,\"vertexes\":[{\"lat\": 6.903045, \"lng\": 79.860281},{\"lat\": 6.902116, \"lng\": 79.861996},{\"lat\": 6.899326, \"lng\": 79.860805},{\"lat\": 6.898815, \"lng\": 79.860429}],\"edges\":[{\"edge1\":1},{\"edge2\":2},{\"edge3\":3},{\"edge4\":4}]},{\"id\":200,\"vertexes\":[{\"lat\": 6.899528, \"lng\": 79.859785},{\"lat\": 6.903181, \"lng\": 79.858584},{\"lat\": 6.902351, \"lng\": 79.857511}],\"edges\":[{\"edge1\":1},{\"edge2\":2},{\"edge3\":3}]},{\"id\":647,\"vertexes\":[{\"lat\": 6.901509, \"lng\": 79.856942},{\"lat\": 6.901019, \"lng\": 79.855193},{\"lat\": 6.900242, \"lng\": 79.855440}],\"edges\":[{\"edge1\":1},{\"edge2\":2},{\"edge3\":3}]}]}");
                     break;
                 case "getPath":
                     outObject = UocMap.getRoute(mainObject);
