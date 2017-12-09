@@ -17,7 +17,7 @@ class ThreadedEchoServer {
 
         try {
             serverSocket = new ServerSocket(PORT);
-        } catch (IOException e) {
+        } catch (IOException e) {           
             e.printStackTrace();
 
         }
