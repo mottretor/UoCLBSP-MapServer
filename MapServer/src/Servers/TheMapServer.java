@@ -9,18 +9,19 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class TheMapServer {
+
     static final int PORT = 1978;
-    
+
     public static void main(String[] args) {
         ServerSocket serverSocket = null;
         Socket socket = null;
-        
+
         try {
             serverSocket = new ServerSocket(PORT);
-        } catch (IOException e) {           
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
         while (true) {
             try {
                 socket = serverSocket.accept();
@@ -35,12 +36,13 @@ public class TheMapServer {
 }
 
 class MapClient extends Thread {
+
     protected Socket socket;
 
     public MapClient(Socket clientSocket) {
         this.socket = clientSocket;
     }
-    
+
     public void run() {
         InputStream inputStream = null;
         BufferedReader bufferedReader = null;
@@ -53,38 +55,46 @@ class MapClient extends Thread {
             return;
         }
         String line;
-        
-            try {
-                line = bufferedReader.readLine();
-                String rawData = "";                
-                boolean isPost = line.startsWith("POST");
-                int contentLength = 0;
-                if(isPost){
-                while (!(line = bufferedReader.readLine()).equals("")) {}
-                rawData = bufferedReader.readLine();
-                }else{
-                rawData = line;
-                }
-                
-                
-                System.out.println(rawData);
 
-                
-                
-                if (isPost) {
-                    // send response
+        try {
+            line = bufferedReader.readLine();
+            String rawData = "";
+            boolean isPost = line.startsWith("POST");
+            int contentLength = 0;
+            if (isPost) {
+                while (!(line = bufferedReader.readLine()).equals("")) {
+                    final String contentHeader = "Content-Length: ";
+                    if (line.startsWith(contentHeader)) {
+                        contentLength = Integer.parseInt(line.substring(contentHeader.length()));
+                    }
+                }
+                StringBuilder body = new StringBuilder();
+                int c = 0;
+                for (int i = 0; i < contentLength; i++) {
+                    c = bufferedReader.read();
+                    body.append((char) c);
+                }
+                rawData = body.toString();
+            } else {
+                rawData = line;
+            }
+
+            System.out.println(rawData);
+
+            if (isPost) {
+                // send response
                 dataOutputStream.writeBytes("HTTP/1.1 200 OK\r\n");
                 dataOutputStream.writeBytes("Content-Type: text/html\r\n");
                 dataOutputStream.writeBytes("Access-Control-Allow-Origin: *\r\n");
                 dataOutputStream.writeBytes("\r\n");
-                    
-                }
-                dataOutputStream.writeBytes(rawData);
-                //
-                // do not in.close();
-                dataOutputStream.flush();
-                dataOutputStream.close();
-                
+
+            }
+            dataOutputStream.writeBytes(rawData);
+            //
+            // do not in.close();
+            dataOutputStream.flush();
+            dataOutputStream.close();
+
 //                if ((line == null) || line.equalsIgnoreCase("QUIT")) {
 //                    socket.close();
 //                    return;
@@ -92,10 +102,10 @@ class MapClient extends Thread {
 //                    dataOutputStream.writeBytes(line + "\n");
 //                    dataOutputStream.flush();
 //                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                return;
-            
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+
         }
     }
 }
