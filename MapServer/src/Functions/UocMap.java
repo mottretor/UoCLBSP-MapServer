@@ -119,8 +119,8 @@ public strictfp class UocMap {
         JSONArray steps = new JSONArray();
         for (Vertex vertex : verList) {
             JSONObject jObj = new JSONObject();
-            jObj.put("latitudes", vertex.getLatitude());
-            jObj.put("longitudes", vertex.getLongitude());
+            jObj.put("lat", vertex.getLatitude());
+            jObj.put("lng", vertex.getLongitude());
             steps.add(jObj);
         }
         JSONObject routes = new JSONObject();
