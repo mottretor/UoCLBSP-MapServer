@@ -16,6 +16,7 @@ public class TheMapServer {
     static final int PORT = 1978;
 
     public static void main(String[] args) {
+        UocMap.LoadDatabase();
         ServerSocket serverSocket = null;
         Socket socket = null;
 

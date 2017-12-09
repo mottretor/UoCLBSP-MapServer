@@ -209,6 +209,8 @@ public strictfp class UocMap {
                  Statement statements = DataBase.createStatement();
                  statements.executeUpdate("INSERT INTO g_out VALUES('"+id+"','"+outVertex.getId()+"')");
              }
+             uocGraphs.put(id, newGraph);
+             uocPolygons.put(id, newPolygon);
              uocOut.put(id, outVertexs);
         } catch (Exception e) {
             e.printStackTrace();
