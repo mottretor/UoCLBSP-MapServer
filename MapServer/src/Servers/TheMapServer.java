@@ -93,7 +93,7 @@ class MapClient extends Thread {
                 dataOutputStream.writeBytes("\r\n");
 
             }
-            dataOutputStream.writeBytes(rawOut);
+            dataOutputStream.writeBytes("{\"polygons\":[{\"id\":100,\"vertexes\":[{\"latitude\": 6.903045, \"longitude\": 79.860281},{\"latitude\": 6.902116, \"longitude\": 79.861996},{\"latitude\": 6.899326, \"longitude\": 79.860805},{\"latitude\": 6.898815, \"longitude\": 79.860429}],\"edges\":[{\"edge1\":1},{\"edge2\":2},{\"edge3\":3},{\"edge4\":4}]},{\"id\":200,\"vertexes\":[{\"latitude\": 6.899528, \"longitude\": 79.859785},{\"latitude\": 6.903181, \"longitude\": 79.858584},{\"latitude\": 6.902351, \"longitude\": 79.857511}],\"edges\":[{\"edge1\":1},{\"edge2\":2},{\"edge3\":3}]},{\"id\":647,\"vertexes\":[{\"latitude\": 6.901509, \"longitude\": 79.856942},{\"latitude\": 6.901019, \"longitude\": 79.855193},{\"latitude\": 6.900242, \"longitude\": 79.855440}],\"edges\":[{\"edge1\":1},{\"edge2\":2},{\"edge3\":3}]}]}");
             //
             // do not in.close();
             dataOutputStream.flush();
