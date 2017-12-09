@@ -84,6 +84,7 @@ class MapClient extends Thread {
 
             System.out.println(rawData);
             String rawOut = computeResult(rawData);
+             System.out.println(rawOut);
 
             if (isPost) {
                 // send response

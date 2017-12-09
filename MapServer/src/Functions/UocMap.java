@@ -119,7 +119,7 @@ public strictfp class UocMap {
         JSONArray steps = new JSONArray();
         for (Vertex vertex : verList) {
             JSONObject jObj = new JSONObject();
-            jObj.put("lattitudes", vertex.getLatitude());
+            jObj.put("latitudes", vertex.getLatitude());
             jObj.put("longitudes", vertex.getLongitude());
             steps.add(jObj);
         }
