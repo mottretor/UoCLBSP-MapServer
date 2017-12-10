@@ -14,9 +14,12 @@ import java.net.URLEncoder;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -168,10 +171,17 @@ public class SearchSupport {
         return result;
     }
     public static void main(String[] args) {
-//        for (JSONObject jSONObject : buildingSearch("s")) {
+        try {
+            //        for (JSONObject jSONObject : buildingSearch("s")) {
 //            System.out.println(jSONObject.toJSONString());
 //        }
-            //System.out.println(getSearchResults("sc", "registerd").toJSONString());
+//System.out.println(getSearchResults("sc", "registerd").toJSONString());
+
+JSONObject newobJSONObject = (JSONObject) new JSONParser().parse("{\"graphs\":[{\"vertexes\":[{\"latitude\":6.9021,\"id\":32,\"longitude\":79.8596},{\"latitude\":6.9022,\"id\":5,\"longitude\":79.8606},{\"latitude\":6.9024,\"id\":6,\"longitude\":79.8605},{\"latitude\":6.9016,\"id\":7,\"longitude\":79.86},{\"latitude\":6.9021,\"id\":8,\"longitude\":79.8596},{\"latitude\":6.9022,\"id\":9,\"longitude\":79.8606},{\"latitude\":6.9024,\"id\":10,\"longitude\":79.8605},{\"latitude\":6.9016,\"id\":11,\"longitude\":79.86},{\"latitude\":6.9021,\"id\":12,\"longitude\":79.8596},{\"latitude\":6.9022,\"id\":13,\"longitude\":79.8606},{\"latitude\":6.9024,\"id\":14,\"longitude\":79.8605},{\"latitude\":6.9016,\"id\":15,\"longitude\":79.86},{\"latitude\":6.9021,\"id\":16,\"longitude\":79.8596},{\"latitude\":6.9022,\"id\":17,\"longitude\":79.8606},{\"latitude\":6.9024,\"id\":18,\"longitude\":79.8605},{\"latitude\":6.9016,\"id\":19,\"longitude\":79.86},{\"latitude\":6.9021,\"id\":20,\"longitude\":79.8596},{\"latitude\":6.9022,\"id\":25,\"longitude\":79.8606},{\"latitude\":6.9024,\"id\":26,\"longitude\":79.8605},{\"latitude\":6.9016,\"id\":27,\"longitude\":79.86},{\"latitude\":6.9021,\"id\":28,\"longitude\":79.8596},{\"latitude\":6.9022,\"id\":29,\"longitude\":79.8606},{\"latitude\":6.9024,\"id\":30,\"longitude\":79.8605},{\"latitude\":6.9016,\"id\":31,\"longitude\":79.86}],\"edges\":[{\"destination\":6,\"id\":5,\"source\":5},{\"destination\":7,\"id\":6,\"source\":5},{\"destination\":8,\"id\":7,\"source\":6},{\"destination\":8,\"id\":8,\"source\":7},{\"destination\":10,\"id\":9,\"source\":9},{\"destination\":11,\"id\":10,\"source\":9},{\"destination\":12,\"id\":11,\"source\":10},{\"destination\":12,\"id\":12,\"source\":11},{\"destination\":14,\"id\":13,\"source\":13},{\"destination\":15,\"id\":14,\"source\":13},{\"destination\":16,\"id\":15,\"source\":14},{\"destination\":16,\"id\":16,\"source\":15},{\"destination\":18,\"id\":17,\"source\":17},{\"destination\":19,\"id\":18,\"source\":17},{\"destination\":20,\"id\":19,\"source\":18},{\"destination\":20,\"id\":20,\"source\":19},{\"destination\":26,\"id\":21,\"source\":25},{\"destination\":27,\"id\":22,\"source\":25},{\"destination\":28,\"id\":23,\"source\":26},{\"destination\":28,\"id\":24,\"source\":27},{\"destination\":30,\"id\":25,\"source\":29},{\"destination\":31,\"id\":26,\"source\":29},{\"destination\":32,\"id\":27,\"source\":30},{\"destination\":32,\"id\":28,\"source\":31}],\"id\":1},{\"vertexes\":[],\"edges\":[],\"id\":2},{\"vertexes\":[],\"edges\":[],\"id\":3},{\"vertexes\":[{\"latitude\":6.902791,\"id\":21,\"longitude\":6.902791},{\"latitude\":6.904016,\"id\":22,\"longitude\":6.904016}],\"edges\":[],\"id\":4},{\"vertexes\":[{\"latitude\":6.902791,\"id\":23,\"longitude\":6.902791},{\"latitude\":6.904016,\"id\":24,\"longitude\":6.904016}],\"edges\":[],\"id\":5},{\"vertexes\":[{\"latitude\":6.902791,\"id\":33,\"longitude\":6.902791},{\"latitude\":6.904016,\"id\":34,\"longitude\":6.904016}],\"edges\":[],\"id\":6}],\"polygons\":[{\"vertexes\":[],\"id\":1},{\"vertexes\":[],\"id\":2},{\"vertexes\":[],\"id\":3},{\"vertexes\":[{\"lng\":6.90356,\"id\":1,\"lat\":6.90356},{\"lng\":6.904646,\"id\":2,\"lat\":6.904646},{\"lng\":6.903815,\"id\":3,\"lat\":6.903815},{\"lng\":6.901003,\"id\":4,\"lat\":6.901003},{\"lng\":6.901717,\"id\":5,\"lat\":6.901717}],\"id\":4},{\"vertexes\":[{\"lng\":6.90356,\"id\":6,\"lat\":6.90356},{\"lng\":6.904646,\"id\":7,\"lat\":6.904646},{\"lng\":6.903815,\"id\":8,\"lat\":6.903815},{\"lng\":6.901003,\"id\":9,\"lat\":6.901003},{\"lng\":6.901717,\"id\":10,\"lat\":6.901717}],\"id\":5},{\"vertexes\":[{\"lng\":6.90356,\"id\":11,\"lat\":6.90356},{\"lng\":6.904646,\"id\":12,\"lat\":6.904646},{\"lng\":6.903815,\"id\":13,\"lat\":6.903815},{\"lng\":6.901003,\"id\":14,\"lat\":6.901003},{\"lng\":6.901717,\"id\":15,\"lat\":6.901717}],\"id\":6}]}");
+            System.out.println(newobJSONObject.toJSONString());
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
     }
     
 }
