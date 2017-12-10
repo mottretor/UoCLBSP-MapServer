@@ -12,7 +12,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.HashMap;
 import java.util.LinkedList;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -24,7 +23,7 @@ import org.json.simple.parser.JSONParser;
  */
 public class SearchSupport {
     
-    public static String placesApiKey = "AIzaSyAzLW-TpnC51MSTnhzrM7vM1CrdKZKcWP0";
+    public static String placesApiKey = "AIzaSyCc6Pbmh1lT4xvAhVjRPNUbGevqE8CKUv4";
     public static int resultCount = 5;
     
     public static JSONObject getSearchResults(String clue, String role){
