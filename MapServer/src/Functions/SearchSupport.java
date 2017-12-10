@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedList;
@@ -92,7 +93,7 @@ public class SearchSupport {
         LinkedList<JSONObject> result = new LinkedList<JSONObject>();
         try {
             
-            String parameters = "input="+clue+"&location=7.479908803880181,80.67368828124995&radius=200000&key="+placesApiKey;
+            String parameters = "input="+URLEncoder.encode(clue, "UTF-8")+"&location=7.479908803880181,80.67368828124995&radius=200000&key="+placesApiKey;
             String output = "json";
             String url1 = "https://maps.googleapis.com/maps/api/place/autocomplete/" + output + "?" + parameters;
             String data = "";
