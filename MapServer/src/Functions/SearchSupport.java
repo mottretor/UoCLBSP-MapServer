@@ -171,7 +171,7 @@ public class SearchSupport {
 //        for (JSONObject jSONObject : buildingSearch("s")) {
 //            System.out.println(jSONObject.toJSONString());
 //        }
-            System.out.println(getSearchResults("sc", "registerd").toJSONString());
+            //System.out.println(getSearchResults("sc", "registerd").toJSONString());
     }
     
 }

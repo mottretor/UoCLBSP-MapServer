@@ -1,5 +1,6 @@
 package Servers;
 
+import Functions.SearchSupport;
 import Functions.UocMap;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -134,6 +135,10 @@ class MapClient extends Thread {
                     break;
                 case "mapRequest":
                     outObject = UocMap.getMap();
+                    break;
+                    
+                case "searchRequest":
+                    outObject = SearchSupport.getSearchResults((String)mainObject.get("input"), (String)mainObject.get("role"));
                     break;
                 
             }
