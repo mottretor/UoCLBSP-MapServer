@@ -198,13 +198,13 @@ public strictfp class UocMap {
             JSONArray polyArray = (JSONArray) jSONObject.get("polygon");
              for (Object object : polyArray) {
                  JSONObject jsonVertex = (JSONObject)object;
-                 newPolygon.addVertex((Double)jsonVertex.get("latitudes"), (Double)jsonVertex.get("latitudes"));
+                 newPolygon.addVertex((Double)jsonVertex.get("latitudes"), (Double)jsonVertex.get("longitudes"));
              }
              ArrayList<Vertex> outVertexs = new ArrayList<Vertex>();
              JSONArray outArray = (JSONArray) jSONObject.get("outvertexes");
              for (Object object : outArray) {
                  JSONObject jsonVertex = (JSONObject)object;
-                 Vertex outVertex = newGraph.addVertex((Double)jsonVertex.get("latitudes"), (Double)jsonVertex.get("latitudes"));
+                 Vertex outVertex = newGraph.addVertex((Double)jsonVertex.get("latitudes"), (Double)jsonVertex.get("longitudes"));
                  outVertexs.add(outVertex);
                  Statement statements = DataBase.createStatement();
                  statements.executeUpdate("INSERT INTO g_out VALUES('"+id+"','"+outVertex.getId()+"')");
