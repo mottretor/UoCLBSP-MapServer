@@ -132,6 +132,9 @@ class MapClient extends Thread {
                     UocMap.addPolygon(mainObject);
                     outObject = (JSONObject) new JSONParser().parse("{\"result\":\"success\"}");
                     break;
+                case "mapRequest":
+                    outObject = UocMap.getMap();
+                    break;
                 
             }
             

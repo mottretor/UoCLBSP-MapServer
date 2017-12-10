@@ -128,6 +128,7 @@ public strictfp class Graph {
             jo.put("destination",element.getDestination().getId() );
             elements.add(jo);
         }
+        map.put("id", id);
         map.put("edges",elements);
         
         return map;
