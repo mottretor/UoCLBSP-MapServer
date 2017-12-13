@@ -10,6 +10,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Edge;
 import model.Graph;
 import model.Polygon;
@@ -17,13 +19,14 @@ import model.Vertex;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public strictfp class UocMap {
 
     public static Graph uocGraph;
-    public static HashMap<Integer, Graph> uocGraphs = new HashMap<Integer, Graph>();
-    public static HashMap<Integer, Polygon> uocPolygons = new HashMap<Integer, Polygon>();
-    public static HashMap<Integer, ArrayList<Vertex>> uocOut = new HashMap<Integer, ArrayList<Vertex>>();
+    public static HashMap<Long, Graph> uocGraphs = new HashMap<Long, Graph>();
+    public static HashMap<Long, Polygon> uocPolygons = new HashMap<Long, Polygon>();
+    public static HashMap<Long, ArrayList<Vertex>> uocOut = new HashMap<Long, ArrayList<Vertex>>();
 
     public static void LoadDatabase() {
         try {
@@ -50,9 +53,9 @@ public strictfp class UocMap {
                 while (outResultSet.next()) {
                     outVertex.add(vertexes.get(outResultSet.getInt("g_vertex_id")));
                 }
-                uocOut.put(resultSet.getInt("id"), outVertex);
+                uocOut.put((long) resultSet.getInt("id"), outVertex);
 
-                uocGraphs.put(resultSet.getInt("id"), new Graph(resultSet.getInt("id"), new ArrayList<Vertex>(vertexes.values()), edges));
+                uocGraphs.put((long) resultSet.getInt("id"), new Graph(resultSet.getInt("id"), new ArrayList<Vertex>(vertexes.values()), edges));
 
                 vertexes = new HashMap<Integer, Vertex>();
                 verStatement = DataBase.createStatement();
@@ -61,7 +64,7 @@ public strictfp class UocMap {
                     vertexes.put(verResultSet.getInt("id"), new Vertex(verResultSet.getInt("id"), verResultSet.getDouble("latitudes"), verResultSet.getDouble("longitudes")));
                 }
 
-                uocPolygons.put(resultSet.getInt("id"), new Polygon(resultSet.getInt("id"), new ArrayList<Vertex>(vertexes.values())));
+                uocPolygons.put((long) resultSet.getInt("id"), new Polygon(resultSet.getInt("id"), new ArrayList<Vertex>(vertexes.values())));
 
             }
         } catch (Exception e) {
@@ -103,7 +106,7 @@ public strictfp class UocMap {
             verList = sRoute;
         } else if ((Long) destination.get("inside") != 0) {
             Graph dGraph = uocGraphs.get((Long) destination.get("inside"));
-            System.out.println(dGraph==null);
+            System.out.println(dGraph == null);
             ArrayList<Vertex> outpoint = new ArrayList<Vertex>();
             outpoint.add(new Vertex(0, (Double) source.get("latitudes"), (Double) source.get("longitudes")));
             minPath = findMinimum(outpoint, uocOut.get(dGraph.getId()));
@@ -187,37 +190,37 @@ public strictfp class UocMap {
     }
 
     public static void addPolygon(JSONObject jSONObject) {
-         try {
+        try {
             Statement statement = DataBase.createStatement();
             statement.executeUpdate("INSERT INTO graph VALUES()");
             ResultSet rs = statement.executeQuery("SELECT LAST_INSERT_ID() FROM graph");
             rs.next();
-            int id = rs.getInt(1); 
+            int id = rs.getInt(1);
             Graph newGraph = new Graph(id, new ArrayList<Vertex>(), new ArrayList<Edge>());
             Polygon newPolygon = new Polygon(id, new ArrayList<Vertex>());
             JSONArray polyArray = (JSONArray) jSONObject.get("polygon");
-             for (Object object : polyArray) {
-                 JSONObject jsonVertex = (JSONObject)object;
-                 newPolygon.addVertex((Double)jsonVertex.get("latitudes"), (Double)jsonVertex.get("longitudes"));
-             }
-             ArrayList<Vertex> outVertexs = new ArrayList<Vertex>();
-             JSONArray outArray = (JSONArray) jSONObject.get("outvertexes");
-             for (Object object : outArray) {
-                 JSONObject jsonVertex = (JSONObject)object;
-                 Vertex outVertex = newGraph.addVertex((Double)jsonVertex.get("latitudes"), (Double)jsonVertex.get("longitudes"));
-                 outVertexs.add(outVertex);
-                 Statement statements = DataBase.createStatement();
-                 statements.executeUpdate("INSERT INTO g_out VALUES('"+id+"','"+outVertex.getId()+"')");
-             }
-             uocGraphs.put(id, newGraph);
-             uocPolygons.put(id, newPolygon);
-             uocOut.put(id, outVertexs);
+            for (Object object : polyArray) {
+                JSONObject jsonVertex = (JSONObject) object;
+                newPolygon.addVertex((Double) jsonVertex.get("latitudes"), (Double) jsonVertex.get("longitudes"));
+            }
+            ArrayList<Vertex> outVertexs = new ArrayList<Vertex>();
+            JSONArray outArray = (JSONArray) jSONObject.get("outvertexes");
+            for (Object object : outArray) {
+                JSONObject jsonVertex = (JSONObject) object;
+                Vertex outVertex = newGraph.addVertex((Double) jsonVertex.get("latitudes"), (Double) jsonVertex.get("longitudes"));
+                outVertexs.add(outVertex);
+                Statement statements = DataBase.createStatement();
+                statements.executeUpdate("INSERT INTO g_out VALUES('" + id + "','" + outVertex.getId() + "')");
+            }
+            uocGraphs.put((long) id, newGraph);
+            uocPolygons.put((long) id, newPolygon);
+            uocOut.put((long) id, outVertexs);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    public static JSONObject getPolygons(){
+
+    public static JSONObject getPolygons() {
         JSONObject outObject = new JSONObject();
         JSONArray polyArray = new JSONArray();
         for (Polygon value : uocPolygons.values()) {
@@ -226,7 +229,7 @@ public strictfp class UocMap {
         outObject.put("polygons", polyArray);
         return outObject;
     }
-    
+
     public static JSONObject getMap() {
         JSONObject outObject = getPolygons();
         JSONArray polyArray = new JSONArray();
@@ -238,7 +241,8 @@ public strictfp class UocMap {
     }
 
     public static void main(String[] args) {
-//        uocGraph = new Graph(1, new ArrayList<Vertex>(), new ArrayList<Edge>());
+        try {
+            //        uocGraph = new Graph(1, new ArrayList<Vertex>(), new ArrayList<Edge>());
 //        Vertex v1 = uocGraph.addVertex(6.9022, 79.8606);
 //        Vertex v2 = uocGraph.addVertex(6.9024, 79.8605);
 //        Vertex v3 = uocGraph.addVertex(6.9016, 79.8600);
@@ -292,29 +296,35 @@ public strictfp class UocMap {
 //            e.printStackTrace();
 //        }
 //        addPolygon(myjson);
-        LoadDatabase();
-        System.out.println(getMap().toJSONString());
+            LoadDatabase();
+//        System.out.println(getMap().toJSONString());
+            addPaths((JSONObject) new JSONParser().parse("{\"type\":\"addPaths\",\"Changes\":[{\"id\":1,\"paths\":[{\"source\":{\"lat\":6.901787,\"lng\":79.85915499999999},\"destination\":{\"lat\":6.900950079788076,\"lng\":79.85984444618225}},{\"source\":{\"lat\":6.900950079788076,\"lng\":79.85984444618225},\"destination\":{\"lat\":6.9024412327545805,\"lng\":79.85989809036255}},{\"source\":{\"lat\":6.9024412327545805,\"lng\":79.85989809036255},\"destination\":{\"lat\":6.901301566267592,\"lng\":79.86031651496887}},{\"source\":{\"lat\":6.901301566267592,\"lng\":79.86031651496887},\"destination\":{\"lat\":6.902143002537094,\"lng\":79.86070275306702}},{\"source\":{\"lat\":6.902143002537094,\"lng\":79.86070275306702},\"destination\":{\"lat\":6.900950079788076,\"lng\":79.86087441444397}},{\"source\":{\"lat\":6.900950079788076,\"lng\":79.86087441444397},\"destination\":{\"lat\":6.901664,\"lng\":79.86176999999998}}]}]}"));
+        } catch (ParseException ex) {
+            Logger.getLogger(UocMap.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public static JSONObject addPaths(JSONObject mainObject) {
-        
+
         try {
             JSONArray result = (JSONArray) mainObject.get("Changes");
             for (Object object : result) {
                 JSONObject jSONObject = (JSONObject) object;
+
                 Graph dGraph = uocGraphs.get(jSONObject.get("id"));
+
                 JSONArray array = (JSONArray) jSONObject.get("paths");
                 for (Object object1 : array) {
-                    JSONObject jSONObject1 = (JSONObject) object;
-                    
-                    Vertex v1 = dGraph.addVertex((Double)((JSONObject)jSONObject1.get("source")).get("lat"), (Double)((JSONObject)jSONObject1.get("source")).get("lng"));
-                    Vertex v2 = dGraph.addVertex((Double)((JSONObject)jSONObject1.get("destination")).get("lat"), (Double)((JSONObject)jSONObject1.get("destination")).get("lng"));
+                    JSONObject jSONObject1 = (JSONObject) object1;
+                    Vertex v1 = dGraph.addVertex((Double) ((JSONObject) jSONObject1.get("source")).get("lat"), (Double) ((JSONObject) jSONObject1.get("source")).get("lng"));
+                    Vertex v2 = dGraph.addVertex((Double) ((JSONObject) jSONObject1.get("destination")).get("lat"), (Double) ((JSONObject) jSONObject1.get("destination")).get("lng"));
                     dGraph.addEdge(v1, v2);
                 }
             }
-           return (JSONObject) new JSONParser().parse("{\"result\":\"success\"}");
+            return (JSONObject) new JSONParser().parse("{\"result\":\"success\"}");
         } catch (Exception e) {
             try {
+                e.printStackTrace();
                 return (JSONObject) new JSONParser().parse("{\"result\":\"failed\"}");
             } catch (Exception ex) {
                 ex.printStackTrace();
