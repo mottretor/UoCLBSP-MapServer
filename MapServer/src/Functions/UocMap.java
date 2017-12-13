@@ -299,7 +299,19 @@ public strictfp class UocMap {
     public static JSONObject addPaths(JSONObject mainObject) {
         
         try {
-            //JSONArray result
+            JSONArray result = (JSONArray) mainObject.get("Changes");
+            for (Object object : result) {
+                JSONObject jSONObject = (JSONObject) object;
+                Graph dGraph = uocGraphs.get(jSONObject.get("id"));
+                JSONArray array = (JSONArray) jSONObject.get("paths");
+                for (Object object1 : array) {
+                    JSONObject jSONObject1 = (JSONObject) object;
+                    
+                    Vertex v1 = dGraph.addVertex((Double)((JSONObject)jSONObject1.get("source")).get("lat"), (Double)((JSONObject)jSONObject1.get("source")).get("lng"));
+                    Vertex v2 = dGraph.addVertex((Double)((JSONObject)jSONObject1.get("destination")).get("lat"), (Double)((JSONObject)jSONObject1.get("destination")).get("lng"));
+                    dGraph.addEdge(v1, v2);
+                }
+            }
            return (JSONObject) new JSONParser().parse("{\"result\":\"success\"}");
         } catch (Exception e) {
             try {
