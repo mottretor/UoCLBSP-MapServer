@@ -1,6 +1,5 @@
 package Functions;
 
-import Algorithms.DijkstraAlgorithm;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -104,6 +103,7 @@ public strictfp class UocMap {
             verList = sRoute;
         } else if ((Long) destination.get("inside") != 0) {
             Graph dGraph = uocGraphs.get((Long) destination.get("inside"));
+            System.out.println(dGraph==null);
             ArrayList<Vertex> outpoint = new ArrayList<Vertex>();
             outpoint.add(new Vertex(0, (Double) source.get("latitudes"), (Double) source.get("longitudes")));
             minPath = findMinimum(outpoint, uocOut.get(dGraph.getId()));
@@ -294,5 +294,20 @@ public strictfp class UocMap {
 //        addPolygon(myjson);
         LoadDatabase();
         System.out.println(getMap().toJSONString());
+    }
+
+    public static JSONObject addPaths(JSONObject mainObject) {
+        
+        try {
+            //JSONArray result
+           return (JSONObject) new JSONParser().parse("{\"result\":\"success\"}");
+        } catch (Exception e) {
+            try {
+                return (JSONObject) new JSONParser().parse("{\"result\":\"failed\"}");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                return null;
+            }
+        }
     }
 }

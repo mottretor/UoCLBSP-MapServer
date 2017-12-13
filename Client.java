@@ -31,17 +31,18 @@ public static void main(String args[]) throws IOException{
     System.out.println("Client Address : "+address);
     System.out.println("Enter Data to echo Server ( Enter QUIT to end):");
 
-    String response=null;
+    
     try{
-        line=br.readLine(); 
-        while(line.compareTo("QUIT")!=0){
+        String response=null;
+        line="{\"type\":\"mapRequest\"}";
+        
                 os.println(line);
                 os.flush();
                 response=is.readLine();
                 System.out.println("Server Response : "+response);
-                line=br.readLine();
+                
 
-            }
+            
 
 
 

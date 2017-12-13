@@ -140,6 +140,10 @@ class MapClient extends Thread {
                 case "searchRequest":
                     outObject = SearchSupport.getSearchResults((String)mainObject.get("input"), (String)mainObject.get("role"));
                     break;
+                    
+                case "addPaths":
+                    outObject = UocMap.addPaths(mainObject);
+                    break;
                 
             }
             
