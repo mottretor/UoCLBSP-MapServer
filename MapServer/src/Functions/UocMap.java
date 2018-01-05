@@ -85,7 +85,7 @@ public strictfp class UocMap {
             if (sGraph.getId() == dGraph.getId()) {
                 verList = sGraph.getInnerDirections(sVertex, dVertex);
             } else {
-                minPath = findMinimum(uocOut.get(sGraph.getId()), uocOut.get(dGraph.getId()));
+                minPath = findMinimum(uocOut.get(new Long(sGraph.getId())), uocOut.get(new Long(dGraph.getId())));
 
                 LinkedList<Vertex> sRoute = sGraph.getInnerDirections(sVertex, minPath[0]);
                 LinkedList<Vertex> gRoute = getGoogleRoute(minPath[0].getLatitude(), minPath[0].getLongitude(), minPath[1].getLatitude(), minPath[1].getLongitude());
@@ -94,16 +94,25 @@ public strictfp class UocMap {
                 sRoute.addAll(dRoute);
                 verList = sRoute;
             }
+            if ((Double) source.get("latitudes")!= sVertex.getLatitude() | (Double) source.get("longitudes") != sVertex.getLongitude()) {
+                verList.addFirst(new Vertex(0, (Double) source.get("latitudes"), (Double) source.get("longitudes")));
+            }
+            if ((Double) destination.get("latitudes")!= dVertex.getLatitude() | (Double) destination.get("longitudes") != dVertex.getLongitude()) {
+                verList.addLast(new Vertex(0, (Double) destination.get("latitudes"), (Double) destination.get("longitudes")));
+            }
         } else if ((Long) source.get("inside") != 0) {
             Graph sGraph = uocGraphs.get((Long) source.get("inside"));
             ArrayList<Vertex> outpoint = new ArrayList<Vertex>();
             outpoint.add(new Vertex(0, (Double) destination.get("latitudes"), (Double) destination.get("longitudes")));
-            minPath = findMinimum(uocOut.get(sGraph.getId()), outpoint);
+            minPath = findMinimum(uocOut.get(new Long(sGraph.getId())), outpoint);
             Vertex sVertex = sGraph.searchVertex((Double) source.get("latitudes"), (Double) source.get("longitudes"));
             LinkedList<Vertex> sRoute = sGraph.getInnerDirections(sVertex, minPath[0]);
             LinkedList<Vertex> gRoute = getGoogleRoute(minPath[0].getLatitude(), minPath[0].getLongitude(), minPath[1].getLatitude(), minPath[1].getLongitude());
             sRoute.addAll(gRoute);
             verList = sRoute;
+            if ((Double) source.get("latitudes")!= sVertex.getLatitude() | (Double) source.get("longitudes") != sVertex.getLongitude()) {
+                verList.addFirst(new Vertex(0, (Double) source.get("latitudes"), (Double) source.get("longitudes")));
+            }
         } else if ((Long) destination.get("inside") != 0) {
             Graph dGraph = uocGraphs.get((Long) destination.get("inside"));
             ArrayList<Vertex> outpoint = new ArrayList<Vertex>();
@@ -114,6 +123,9 @@ public strictfp class UocMap {
             LinkedList<Vertex> dRoute = dGraph.getInnerDirections(minPath[1], dVertex);
             gRoute.addAll(dRoute);
             verList = gRoute;
+            if ((Double) destination.get("latitudes")!= dVertex.getLatitude() | (Double) destination.get("longitudes") != dVertex.getLongitude()) {
+                verList.addLast(new Vertex(0, (Double) destination.get("latitudes"), (Double) destination.get("longitudes")));
+            }
         } else {
             LinkedList<Vertex> gRoute = getGoogleRoute((Double) source.get("latitudes"), (Double) source.get("longitudes"), (Double) destination.get("latitudes"), (Double) destination.get("longitudes"));
             verList = gRoute;
