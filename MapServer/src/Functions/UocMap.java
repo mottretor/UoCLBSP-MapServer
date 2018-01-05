@@ -168,7 +168,7 @@ public strictfp class UocMap {
             }
 
             data = sb.toString();
-
+            System.out.println(data);
             br.close();
             return DirectionsJsonParser.parse((JSONObject) new JSONParser().parse(data));
         } catch (Exception e) {
