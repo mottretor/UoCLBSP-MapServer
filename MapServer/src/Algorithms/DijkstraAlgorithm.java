@@ -133,6 +133,7 @@ public strictfp class DijkstraAlgorithm {
         }
         // Put it into the correct order
         Collections.reverse(path);
+        System.out.println(path);
         return path;
     }
 

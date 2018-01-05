@@ -112,7 +112,7 @@ public strictfp class UocMap {
             Vertex dVertex = dGraph.searchVertex((Double) destination.get("latitudes"), (Double) destination.get("longitudes"));
             LinkedList<Vertex> gRoute = getGoogleRoute(minPath[0].getLatitude(), minPath[0].getLongitude(), minPath[1].getLatitude(), minPath[1].getLongitude());
             LinkedList<Vertex> dRoute = dGraph.getInnerDirections(minPath[1], dVertex);
-//            gRoute.addAll(dRoute);
+            gRoute.addAll(dRoute);
             verList = gRoute;
         } else {
             LinkedList<Vertex> gRoute = getGoogleRoute((Double) source.get("latitudes"), (Double) source.get("longitudes"), (Double) destination.get("latitudes"), (Double) destination.get("longitudes"));
@@ -298,8 +298,8 @@ public strictfp class UocMap {
             LoadDatabase();
 //        System.out.println(getMap().toJSONString());
             JSONObject jSONObject = (JSONObject) new JSONParser().parse("{\"type\":\"getPath\",\"source\":{\"latitudes\":6.9021983,\"longitudes\":79.8906983,\"inside\":0},\"destination\":{\"latitudes\":6.9021707,\"longitudes\":79.86148949999999,\"inside\":1}}");
-            getRoute(jSONObject);
-            System.out.println(getRoute(jSONObject).toJSONString());
+            System.out.println(getRoute(jSONObject));
+            
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
