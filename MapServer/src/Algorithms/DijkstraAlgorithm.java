@@ -25,6 +25,7 @@ public strictfp class DijkstraAlgorithm {
         // create a copy of the array so that we can operate on this array
         this.nodes = new ArrayList<Vertex>(graph.getVertexes());
         this.edges = new ArrayList<Edge>(graph.getEdges());
+
     }
 
     public void execute(Vertex source) {
@@ -34,6 +35,7 @@ public strictfp class DijkstraAlgorithm {
         predecessors = new HashMap<Vertex, Vertex>();
         distance.put(source, 0.0);
         unSettledNodes.add(source);
+
         while (unSettledNodes.size() > 0) {
             Vertex node = getMinimum(unSettledNodes);
             settledNodes.add(node);
@@ -44,6 +46,7 @@ public strictfp class DijkstraAlgorithm {
 
     private void findMinimalDistances(Vertex node) {
         List<Vertex> adjacentNodes = getNeighbors(node);
+        
         for (Vertex target : adjacentNodes) {
             if (getShortestDistance(target) > getShortestDistance(node) + getDistance(node, target)) {
                 distance.put(target, getShortestDistance(node) + getDistance(node, target));
@@ -71,6 +74,7 @@ public strictfp class DijkstraAlgorithm {
     private List<Vertex> getNeighbors(Vertex node) {
         List<Vertex> neighbors = new ArrayList<Vertex>();
         for (Edge edge : edges) {
+            
             if (edge.getSource().equals(node)
                     && !isSettled(edge.getDestination())) {
                 neighbors.add(edge.getDestination());
@@ -79,6 +83,7 @@ public strictfp class DijkstraAlgorithm {
                     && !isSettled(edge.getSource())) {
                 neighbors.add(edge.getSource());
             }
+            
         }
         return neighbors;
     }
@@ -132,4 +137,3 @@ public strictfp class DijkstraAlgorithm {
     }
 
 }
-

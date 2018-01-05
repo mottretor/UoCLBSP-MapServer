@@ -106,14 +106,13 @@ public strictfp class UocMap {
             verList = sRoute;
         } else if ((Long) destination.get("inside") != 0) {
             Graph dGraph = uocGraphs.get((Long) destination.get("inside"));
-            System.out.println(dGraph == null);
             ArrayList<Vertex> outpoint = new ArrayList<Vertex>();
             outpoint.add(new Vertex(0, (Double) source.get("latitudes"), (Double) source.get("longitudes")));
-            minPath = findMinimum(outpoint, uocOut.get(dGraph.getId()));
+            minPath = findMinimum(outpoint, uocOut.get(new Long(dGraph.getId())));
             Vertex dVertex = dGraph.searchVertex((Double) destination.get("latitudes"), (Double) destination.get("longitudes"));
             LinkedList<Vertex> gRoute = getGoogleRoute(minPath[0].getLatitude(), minPath[0].getLongitude(), minPath[1].getLatitude(), minPath[1].getLongitude());
             LinkedList<Vertex> dRoute = dGraph.getInnerDirections(minPath[1], dVertex);
-            gRoute.addAll(dRoute);
+//            gRoute.addAll(dRoute);
             verList = gRoute;
         } else {
             LinkedList<Vertex> gRoute = getGoogleRoute((Double) source.get("latitudes"), (Double) source.get("longitudes"), (Double) destination.get("latitudes"), (Double) destination.get("longitudes"));
@@ -298,9 +297,11 @@ public strictfp class UocMap {
 //        addPolygon(myjson);
             LoadDatabase();
 //        System.out.println(getMap().toJSONString());
-            addPaths((JSONObject) new JSONParser().parse("{\"type\":\"addPaths\",\"Changes\":[{\"id\":1,\"paths\":[{\"source\":{\"lat\":6.901787,\"lng\":79.85915499999999},\"destination\":{\"lat\":6.900950079788076,\"lng\":79.85984444618225}},{\"source\":{\"lat\":6.900950079788076,\"lng\":79.85984444618225},\"destination\":{\"lat\":6.9024412327545805,\"lng\":79.85989809036255}},{\"source\":{\"lat\":6.9024412327545805,\"lng\":79.85989809036255},\"destination\":{\"lat\":6.901301566267592,\"lng\":79.86031651496887}},{\"source\":{\"lat\":6.901301566267592,\"lng\":79.86031651496887},\"destination\":{\"lat\":6.902143002537094,\"lng\":79.86070275306702}},{\"source\":{\"lat\":6.902143002537094,\"lng\":79.86070275306702},\"destination\":{\"lat\":6.900950079788076,\"lng\":79.86087441444397}},{\"source\":{\"lat\":6.900950079788076,\"lng\":79.86087441444397},\"destination\":{\"lat\":6.901664,\"lng\":79.86176999999998}}]}]}"));
+            JSONObject jSONObject = (JSONObject) new JSONParser().parse("{\"type\":\"getPath\",\"source\":{\"latitudes\":6.9021983,\"longitudes\":79.8906983,\"inside\":0},\"destination\":{\"latitudes\":6.9021707,\"longitudes\":79.86148949999999,\"inside\":1}}");
+            getRoute(jSONObject);
+            System.out.println(getRoute(jSONObject).toJSONString());
         } catch (ParseException ex) {
-            Logger.getLogger(UocMap.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
 
