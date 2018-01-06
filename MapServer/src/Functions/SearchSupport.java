@@ -96,7 +96,7 @@ public class SearchSupport {
         LinkedList<JSONObject> result = new LinkedList<JSONObject>();
         try {
             
-            String parameters = "input="+URLEncoder.encode(clue, "UTF-8")+"&location=7.479908803880181,80.67368828124995&radius=200000&strictbounds&key="+placesApiKey;
+            String parameters = "input="+URLEncoder.encode(clue, "UTF-8")+"&location=7.479908803880181,80.67368828124995&radius=300000&strictbounds&key="+placesApiKey;
             String output = "json";
             String url1 = "https://maps.googleapis.com/maps/api/place/autocomplete/" + output + "?" + parameters;
             String data = "";
@@ -124,6 +124,7 @@ public class SearchSupport {
                     JSONObject node = (JSONObject) object;
                     JSONObject element = new JSONObject();
                     element.put("name", (String)((JSONObject)node.get("structured_formatting")).get("main_text"));
+                    element.put("alt", (String)((JSONObject)node.get("structured_formatting")).get("secondary_text"));
                     element.put("place_id", (String)node.get("place_id"));
                     result.add(element);
                 }else{
@@ -164,7 +165,8 @@ public class SearchSupport {
             data = sb.toString();         
             br.close();
             result =  (JSONObject) ((JSONObject) ((JSONObject) ((JSONObject) new JSONParser().parse(data)).get("result")).get("geometry")).get("location");
-            result.put("name", (String)pollFirst.get("name"));            
+            result.put("name", (String)pollFirst.get("name"));
+            result.put("alt", (String)pollFirst.get("alt"));
         } catch (Exception e) {
             e.printStackTrace();
         }
