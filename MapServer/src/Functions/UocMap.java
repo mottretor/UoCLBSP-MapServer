@@ -94,12 +94,7 @@ public strictfp class UocMap {
                 sRoute.addAll(dRoute);
                 verList = sRoute;
             }
-            if ((Double) source.get("latitudes")!= sVertex.getLatitude() | (Double) source.get("longitudes") != sVertex.getLongitude()) {
-                verList.addFirst(new Vertex(0, (Double) source.get("latitudes"), (Double) source.get("longitudes")));
-            }
-            if ((Double) destination.get("latitudes")!= dVertex.getLatitude() | (Double) destination.get("longitudes") != dVertex.getLongitude()) {
-                verList.addLast(new Vertex(0, (Double) destination.get("latitudes"), (Double) destination.get("longitudes")));
-            }
+
         } else if ((Long) source.get("inside") != 0) {
             Graph sGraph = uocGraphs.get((Long) source.get("inside"));
             ArrayList<Vertex> outpoint = new ArrayList<Vertex>();
@@ -110,9 +105,7 @@ public strictfp class UocMap {
             LinkedList<Vertex> gRoute = getGoogleRoute(minPath[0].getLatitude(), minPath[0].getLongitude(), minPath[1].getLatitude(), minPath[1].getLongitude());
             sRoute.addAll(gRoute);
             verList = sRoute;
-            if ((Double) source.get("latitudes")!= sVertex.getLatitude() | (Double) source.get("longitudes") != sVertex.getLongitude()) {
-                verList.addFirst(new Vertex(0, (Double) source.get("latitudes"), (Double) source.get("longitudes")));
-            }
+
         } else if ((Long) destination.get("inside") != 0) {
             Graph dGraph = uocGraphs.get((Long) destination.get("inside"));
             ArrayList<Vertex> outpoint = new ArrayList<Vertex>();
@@ -123,12 +116,16 @@ public strictfp class UocMap {
             LinkedList<Vertex> dRoute = dGraph.getInnerDirections(minPath[1], dVertex);
             gRoute.addAll(dRoute);
             verList = gRoute;
-            if ((Double) destination.get("latitudes")!= dVertex.getLatitude() | (Double) destination.get("longitudes") != dVertex.getLongitude()) {
-                verList.addLast(new Vertex(0, (Double) destination.get("latitudes"), (Double) destination.get("longitudes")));
-            }
+
         } else {
             LinkedList<Vertex> gRoute = getGoogleRoute((Double) source.get("latitudes"), (Double) source.get("longitudes"), (Double) destination.get("latitudes"), (Double) destination.get("longitudes"));
             verList = gRoute;
+        }
+        if ((Double) source.get("latitudes") != verList.getFirst().getLatitude() | (Double) source.get("longitudes") != verList.getFirst().getLongitude()) {
+            verList.addFirst(new Vertex(0, (Double) source.get("latitudes"), (Double) source.get("longitudes")));
+        }
+        if ((Double) destination.get("latitudes") != verList.getLast().getLatitude() | (Double) destination.get("longitudes") != verList.getLast().getLongitude()) {
+            verList.addLast(new Vertex(0, (Double) destination.get("latitudes"), (Double) destination.get("longitudes")));
         }
         JSONArray steps = new JSONArray();
         for (Vertex vertex : verList) {
@@ -311,7 +308,7 @@ public strictfp class UocMap {
 //        System.out.println(getMap().toJSONString());
             JSONObject jSONObject = (JSONObject) new JSONParser().parse("{\"type\":\"getPath\",\"source\":{\"latitudes\":6.9021983,\"longitudes\":79.8906983,\"inside\":0},\"destination\":{\"latitudes\":6.9021707,\"longitudes\":79.86148949999999,\"inside\":1}}");
             System.out.println(getRoute(jSONObject));
-            
+
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
