@@ -144,8 +144,8 @@ public strictfp class UocMap {
 
             String str_origin = "origin=" + sLat + "," + sLon;
             String str_dest = "destination=" + dLat + "," + dLon;
-            String sensor = "sensor=false&mode=driving";
-            String parameters = str_origin + "&" + str_dest + "&" + sensor;
+            
+            String parameters = str_origin + "&" + str_dest ;
             String output = "json";
             String url1 = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
             String data = "";
