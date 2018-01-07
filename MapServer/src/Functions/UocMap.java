@@ -1,5 +1,6 @@
 package Functions;
 
+import Resources.Values;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -10,8 +11,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Edge;
 import model.Graph;
 import model.Polygon;
@@ -145,7 +144,7 @@ public strictfp class UocMap {
             String str_origin = "origin=" + sLat + "," + sLon;
             String str_dest = "destination=" + dLat + "," + dLon;
             
-            String parameters = str_origin + "&" + str_dest ;
+            String parameters = str_origin + "&" + str_dest+"&key="+Values.api_key ;
             String output = "json";
             String url1 = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
             String data = "";
@@ -189,7 +188,7 @@ public strictfp class UocMap {
                 str_dest+=(String.valueOf(vertex.getLatitude())+","+String.valueOf(vertex.getLongitude())+"|");
             }
             
-            String parameters = str_origin + "&" + str_dest;
+            String parameters = str_origin + "&" + str_dest+"&key="+Values.api_key;
             String output = "json";
             String url1 = "https://maps.googleapis.com/maps/api/distancematrix/" + output + "?" + parameters;
             System.out.println(url1);

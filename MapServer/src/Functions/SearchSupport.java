@@ -5,6 +5,7 @@
  */
 package Functions;
 
+import Resources.Values;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,7 +26,7 @@ import org.json.simple.parser.ParseException;
  */
 public class SearchSupport {
 
-    public static String placesApiKey = "AIzaSyCc6Pbmh1lT4xvAhVjRPNUbGevqE8CKUv4";
+    public static String placesApiKey = Values.api_key;
     public static int resultCount = 5;
 
     public static JSONObject getSearchResults(String clue, String role) {
