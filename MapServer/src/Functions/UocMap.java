@@ -217,7 +217,7 @@ public strictfp class UocMap {
                 JSONArray nArray = (JSONArray) ((JSONObject)rArray.get(i)).get("elements");
                 for (int j = 0; j < nArray.size(); j++) {
                     JSONObject element = (JSONObject) nArray.get(j);
-                    long duration = (Long)((JSONObject)element.get("duration")).get("value");
+                    long duration = (Long)((JSONObject)element.get("distance")).get("value");
                     if (minimum == -1 | minimum > duration) {
                         minimum = duration;
                         mini[0] = source.get(i);
