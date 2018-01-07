@@ -176,24 +176,62 @@ public strictfp class UocMap {
     }
 
     public static Vertex[] findMinimum(ArrayList<Vertex> source, ArrayList<Vertex> destination) {
-        double x1, x2, y1, y2, minimum;
-        minimum = -1;
-        Vertex[] mini = new Vertex[2];
-        for (Vertex vertex : source) {
-            for (Vertex vertex1 : destination) {
-                x1 = vertex.getLatitude();
-                x2 = vertex1.getLatitude();
-                y1 = vertex.getLongitude();
-                y2 = vertex1.getLongitude();
-                x1 = Math.sqrt(((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2)));
-                if (minimum == -1 | minimum > x1) {
-                    minimum = x1;
-                    mini[0] = vertex;
-                    mini[1] = vertex1;
-                }
+        try {
+            double x1, x2, y1, y2, minimum;
+            minimum = -1;
+            Vertex[] mini = new Vertex[2];
+            String str_origin = "origins=";
+            String str_dest = "destinations=";
+            for (Vertex vertex : source) {
+                str_origin+=(String.valueOf(vertex.getLatitude())+","+String.valueOf(vertex.getLongitude())+"|");
             }
+            for (Vertex vertex : destination) {
+                str_dest+=(String.valueOf(vertex.getLatitude())+","+String.valueOf(vertex.getLongitude())+"|");
+            }
+            
+            String parameters = str_origin + "&" + str_dest;
+            String output = "json";
+            String url1 = "https://maps.googleapis.com/maps/api/distancematrix/" + output + "?" + parameters;
+            System.out.println(url1);
+            String data = "";
+            InputStream iStream = null;
+            HttpURLConnection urlConnection = null;
+
+            URL ur = new URL(url1);
+            urlConnection = (HttpURLConnection) ur.openConnection();
+            urlConnection.connect();
+            iStream = urlConnection.getInputStream();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
+            StringBuffer sb = new StringBuffer();
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+
+            data = sb.toString();
+            
+            JSONObject nObject = (JSONObject) new JSONParser().parse(data);
+            JSONArray rArray = (JSONArray) nObject.get("rows");
+            for (int i = 0; i < rArray.size(); i++) {
+                JSONArray nArray = (JSONArray) ((JSONObject)rArray.get(i)).get("elements");
+                for (int j = 0; j < nArray.size(); j++) {
+                    JSONObject element = (JSONObject) nArray.get(j);
+                    long duration = (Long)((JSONObject)element.get("duration")).get("value");
+                    if (minimum == -1 | minimum > duration) {
+                        minimum = duration;
+                        mini[0] = source.get(i);
+                        mini[1] = destination.get(j);
+                    }
+                }
+                
+            }
+            
+            return mini;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-        return mini;
 
     }
 
