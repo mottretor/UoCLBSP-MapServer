@@ -2,6 +2,7 @@ package Servers;
 
 import Functions.SearchSupport;
 import Functions.UocMap;
+import Resources.Values;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -13,20 +14,25 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 public class TheMapServer {
-
+    
     static final int PORT = 1978;
-
+    
     public static void main(String[] args) {
+        Values.getApiKey();
+        if (Values.api_key.length()<4) {
+            System.err.println("Google API Key Not Found or Invalid. Please Set Up .env File");
+            System.exit(1);
+        }
         UocMap.LoadDatabase();
         ServerSocket serverSocket = null;
         Socket socket = null;
-
+        
         try {
             serverSocket = new ServerSocket(PORT);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        
         while (true) {
             try {
                 socket = serverSocket.accept();
@@ -41,13 +47,13 @@ public class TheMapServer {
 }
 
 class MapClient extends Thread {
-
+    
     protected Socket socket;
-
+    
     public MapClient(Socket clientSocket) {
         this.socket = clientSocket;
     }
-
+    
     public void run() {
         InputStream inputStream = null;
         BufferedReader bufferedReader = null;
@@ -60,7 +66,7 @@ class MapClient extends Thread {
             return;
         }
         String line;
-
+        
         try {
             line = bufferedReader.readLine();
             String rawData = "";
@@ -83,18 +89,18 @@ class MapClient extends Thread {
             } else {
                 rawData = line;
             }
-
+            
             System.out.println(rawData);
             String rawOut = computeResult(rawData);
-             System.out.println(rawOut);
-
+            System.out.println(rawOut);
+            
             if (isPost) {
                 // send response
                 dataOutputStream.writeBytes("HTTP/1.1 200 OK\r\n");
                 dataOutputStream.writeBytes("Content-Type: text/html\r\n");
                 dataOutputStream.writeBytes("Access-Control-Allow-Origin: *\r\n");
                 dataOutputStream.writeBytes("\r\n");
-
+                
             }
             dataOutputStream.writeBytes(rawOut);
             //
@@ -112,16 +118,16 @@ class MapClient extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
             return;
-
+            
         }
     }
-
+    
     private String computeResult(String rawData) {
         try {
             JSONObject mainObject = (JSONObject) new JSONParser().parse(rawData);
             String type = (String) mainObject.get("type");
             JSONObject outObject = null;
-            switch(type){
+            switch (type) {
                 case "polyRequest":
                     outObject = UocMap.getPolygons();
 //                    outObject = (JSONObject) new JSONParser().parse("{\"polygons\":[{\"id\":100,\"vertexes\":[{\"lat\": 6.903045, \"lng\": 79.860281},{\"lat\": 6.902116, \"lng\": 79.861996},{\"lat\": 6.899326, \"lng\": 79.860805},{\"lat\": 6.898815, \"lng\": 79.860429}],\"edges\":[{\"edge1\":1},{\"edge2\":2},{\"edge3\":3},{\"edge4\":4}]},{\"id\":200,\"vertexes\":[{\"lat\": 6.899528, \"lng\": 79.859785},{\"lat\": 6.903181, \"lng\": 79.858584},{\"lat\": 6.902351, \"lng\": 79.857511}],\"edges\":[{\"edge1\":1},{\"edge2\":2},{\"edge3\":3}]},{\"id\":647,\"vertexes\":[{\"lat\": 6.901509, \"lng\": 79.856942},{\"lat\": 6.901019, \"lng\": 79.855193},{\"lat\": 6.900242, \"lng\": 79.855440}],\"edges\":[{\"edge1\":1},{\"edge2\":2},{\"edge3\":3}]}]}");
@@ -136,11 +142,11 @@ class MapClient extends Thread {
                 case "mapRequest":
                     outObject = UocMap.getMap();
                     break;
-                    
+                
                 case "searchRequest":
-                    outObject = SearchSupport.getSearchResults((String)mainObject.get("input"), (String)mainObject.get("role"));
+                    outObject = SearchSupport.getSearchResults((String) mainObject.get("input"), (String) mainObject.get("role"));
                     break;
-                    
+                
                 case "addPaths":
                     outObject = UocMap.addPaths(mainObject);
                     break;
