@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Functions;
+package functions;
 
-import Resources.Values;
+import resources.Values;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;

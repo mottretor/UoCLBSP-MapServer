@@ -5,8 +5,8 @@
  */
 package model;
 
-import Algorithms.DijkstraAlgorithm;
-import Functions.DataBase;
+import algorithms.DijkstraAlgorithm;
+import functions.DataBase;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedList;

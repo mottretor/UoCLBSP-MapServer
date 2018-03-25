@@ -1,8 +1,8 @@
-package Servers;
+package servers;
 
-import Functions.SearchSupport;
-import Functions.UocMap;
-import Resources.Values;
+import functions.SearchSupport;
+import functions.UocMap;
+import resources.Values;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -23,7 +23,7 @@ public class TheMapServer {
             System.err.println("Google API Key Not Found or Invalid. Please Set Up .env File");
             System.exit(1);
         }
-        UocMap.LoadDatabase();
+        UocMap.loadDatabase();
         ServerSocket serverSocket = null;
         Socket socket = null;
         
