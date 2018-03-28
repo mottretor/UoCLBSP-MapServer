@@ -1,6 +1,6 @@
-package Functions;
+package functions;
 
-import Resources.Values;
+import resources.Values;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -27,7 +27,7 @@ public strictfp class UocMap {
     public static HashMap<Long, Polygon> uocPolygons = new HashMap<Long, Polygon>();
     public static HashMap<Long, ArrayList<Vertex>> uocOut = new HashMap<Long, ArrayList<Vertex>>();
 
-    public static void LoadDatabase() {
+    public static void loadDatabase() {
         try {
             Statement statement = DataBase.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM graph");
@@ -176,7 +176,7 @@ public strictfp class UocMap {
 
     public static Vertex[] findMinimum(ArrayList<Vertex> source, ArrayList<Vertex> destination) {
         try {
-            double x1, x2, y1, y2, minimum;
+            double minimum;
             minimum = -1;
             Vertex[] mini = new Vertex[2];
             String str_origin = "origins=";
@@ -323,7 +323,7 @@ public strictfp class UocMap {
 //
 //System.out.println(uocGraph.getMap().toJSONString());
 //
-//        LoadDatabase();
+//        loadDatabase();
 //
 //        for (Graph uocGraph1 : uocGraphs.values()) {
 //            for (Vertex vertexe : uocGraph1.getVertexes()) {
@@ -341,7 +341,7 @@ public strictfp class UocMap {
 //            e.printStackTrace();
 //        }
 //        addPolygon(myjson);
-            LoadDatabase();
+            loadDatabase();
 //        System.out.println(getMap().toJSONString());
             JSONObject jSONObject = (JSONObject) new JSONParser().parse("{\"type\":\"getPath\",\"source\":{\"latitudes\":6.9021983,\"longitudes\":79.8906983,\"inside\":0},\"destination\":{\"latitudes\":6.9021707,\"longitudes\":79.86148949999999,\"inside\":1}}");
             System.out.println(getRoute(jSONObject));

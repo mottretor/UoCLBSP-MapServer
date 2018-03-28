@@ -1,4 +1,4 @@
-package Functions;
+package functions;
 
 
 
@@ -6,8 +6,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 
 public class DataBase {    
